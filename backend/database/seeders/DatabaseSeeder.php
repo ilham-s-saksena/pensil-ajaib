@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         'role' => 'admin',
     ]);
 
-    Category::create(['name' => 'Web Development']);
-    Category::create(['name' => 'Design Grafis']);
+    // Category::create(['name' => 'Web Development']);
+    // Category::create(['name' => 'Design Grafis']);
 }
 }

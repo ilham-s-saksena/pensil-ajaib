@@ -11,6 +11,10 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/register', [AuthController::class, 'register']);
 
+Route::get('/csrf-token', function () {
+    return ['csrf_token' => csrf_token()];
+});
+
 // Route yang memerlukan autentikasi
 // Hapus middleware auth:sanctum untuk sementara
 Route::group([], function () {
