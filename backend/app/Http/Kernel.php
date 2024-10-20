@@ -6,47 +6,27 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
-    /**
-     * The application's global HTTP middleware stack.
-     *
-     * @var array
-     */
     protected $middleware = [
+        // Middleware global
         // \App\Http\Middleware\TrustProxies::class,
-        // \App\Http\Middleware\CheckForMaintenanceMode::class,
-        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        // \App\Http\Middleware\TrimStrings::class,
+        // \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        // Middleware lainnya...
     ];
 
-    /**
-     * The application's route middleware.
-     *
-     * @var array
-     */
+   protected $middlewareGroups = [
+    'api' => [
+        \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        'throttle:api',
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        \App\Http\Middleware\VerifyCsrfToken::class, // Hapus atau komentar baris ini
+    ],
+];
+
+
     protected $routeMiddleware = [
-        'auth' => \App\Http\Middleware\Authenticate::class,
-        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        // Anda bisa menambahkan middleware lain di sini
-    ];
-
-    /**
-     * The middleware groups for the application.
-     *
-     * @var array
-     */
-    protected $middlewareGroups = [
-        'web' => [
-            // Middleware lainnya...
-            // \App\Http\Middleware\VerifyCsrfToken::class, // Middleware CSRF dinonaktifkan
-        ],
-
-        'api' => [
-            'throttle:api',
-            'bindings',
-        ],
+        // Middleware yang terdaftar di sini
+        'checkApiToken' => \App\Http\Middleware\CheckApiToken::class,
+        // Middleware lainnya...
     ];
 }
